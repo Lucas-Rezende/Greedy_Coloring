@@ -12,14 +12,17 @@ CFLAGS = -Wall -I$(INCLUDE_DIR)
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SOURCES))
 
-all: $(EXEC)
+all: $(EXEC) $(LINK)
 
 $(EXEC): $(OBJECTS)
 	$(CC) $^ -g -o $@
+
+$(LINK):
+	ln -sf $(EXEC) $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -g -c $< -o $@
 
 .PHONY: clean
 clean:
-	rm -f $(EXEC) $(OBJECTS)
+	rm -f $(EXEC) $(OBJECTS) $(LINK)

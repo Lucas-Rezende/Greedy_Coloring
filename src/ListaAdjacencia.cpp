@@ -10,9 +10,8 @@ ListaAdjacencia::ListaAdjacencia()
 
 ListaAdjacencia::~ListaAdjacencia()
 {
-    while (vertices != nullptr)
-    {
-        ListaEncadeada *temp = vertices;
+    while (vertices != nullptr) {
+        ListaEncadeada* temp = vertices;
         vertices = vertices->nextlist;
         delete temp;
     }
@@ -30,22 +29,22 @@ void ListaAdjacencia::insereFinal(ListaEncadeada *mylista)
     else
     {
         ListaEncadeada *atual = vertices;
-        while (atual->nextlist != nullptr)
-        {
+        while (atual->nextlist != nullptr) {
             atual = atual->nextlist;
         }
-
+        
         atual->nextlist = novaLista;
     }
-
+    
     numVertices++;
 }
 
-ListaEncadeada *ListaAdjacencia::removeFinal()
+ListaEncadeada* ListaAdjacencia::removeFinal()
 {
     if (vertices == nullptr)
     {
-        throw std::runtime_error("Erro: lista vazia");
+        std::cerr << "Erro: lista vazia\n";
+        exit(EXIT_FAILURE);
     }
 
     ListaEncadeada *itemRemovido = vertices;
@@ -58,26 +57,25 @@ ListaEncadeada *ListaAdjacencia::removeFinal()
     else
     {
         ListaEncadeada *atual = vertices;
-        while (atual->nextlist->nextlist != nullptr)
-        {
+        while (atual->nextlist->nextlist != nullptr) {
             atual = atual->nextlist;
         }
-
+        
         delete atual->nextlist;
         atual->nextlist = nullptr;
-
+        
         itemRemovido = atual;
     }
 
     numVertices--;
-
+    
     return itemRemovido;
 }
 
 void ListaAdjacencia::imprime()
 {
     ListaEncadeada *atual = vertices;
-
+    
     while (atual != nullptr)
     {
         atual->Imprime();
@@ -85,22 +83,19 @@ void ListaAdjacencia::imprime()
     }
 }
 
-int ListaAdjacencia::getTamanho()
-{
+int ListaAdjacencia::getTamanho() {
     return numVertices;
 }
 
-ListaEncadeada *ListaAdjacencia::getLista(int index)
-{
-    if (index < 0 || index >= numVertices)
-    {
-        throw std::runtime_error("Erro: índice fora dos limites");
+ListaEncadeada* ListaAdjacencia::getLista(int index) {
+    if (index < 0 || index >= numVertices) {
+        std::cerr << "Erro: índice fora dos limites\n";
+        exit(EXIT_FAILURE);
     }
 
     ListaEncadeada *atual = vertices;
 
-    for (int i = 0; i < index; i++)
-    {
+    for (int i = 0; i < index; i++) {
         atual = atual->nextlist;
     }
 

@@ -39,6 +39,7 @@ void Algoritmos::InsertionSort(Grafo &mygraph, int n, int *vertices)
         int key = vertices[i];
         int j = i - 1;
 
+        // Move os elementos do array[0..i-1], que são maiores que a chave, para uma posição à frente de sua posição atual
         while (j >= 0 && mygraph.GetCor(vertices[j]) > mygraph.GetCor(key))
         {
             vertices[j + 1] = vertices[j];
@@ -86,16 +87,19 @@ void Algoritmos::Merge(Grafo &mygraph, int* vertices, int left, int mid, int rig
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
+    // Cria arrays temporários
     int L[n1], R[n2];
 
+    // Copia os dados para os arrays temporários L[] e R[]
     for (i = 0; i < n1; i++)
         L[i] = vertices[left + i];
     for (j = 0; j < n2; j++)
         R[j] = vertices[mid + 1 + j];
 
-    i = 0;
-    j = 0;
-    k = left;
+    // Mescla os arrays temporários de volta para o array vertices[]
+    i = 0; // Índice inicial do primeiro subarray
+    j = 0; // Índice inicial do segundo subarray
+    k = left; // Índice inicial do subarray mesclado
     while (i < n1 && j < n2)
     {
         if (mygraph.GetCor(L[i]) <= mygraph.GetCor(R[j]))
@@ -111,6 +115,7 @@ void Algoritmos::Merge(Grafo &mygraph, int* vertices, int left, int mid, int rig
         k++;
     }
 
+    // Copia os elementos restantes de L[], se houver
     while (i < n1)
     {
         vertices[k] = L[i];
@@ -118,6 +123,7 @@ void Algoritmos::Merge(Grafo &mygraph, int* vertices, int left, int mid, int rig
         k++;
     }
 
+    // Copia os elementos restantes de R[], se houver
     while (j < n2)
     {
         vertices[k] = R[j];
@@ -130,8 +136,10 @@ void Algoritmos::MergeSort(Grafo &mygraph, int* vertices, int left, int right)
 {
     if (left < right)
     {
+        // Mesmo que (left+right)/2, mas evita overflow para grandes valores de left e right
         int mid = left + (right - left) / 2;
 
+        // Ordena a primeira e a segunda metade
         MergeSort(mygraph, vertices, left, mid);
         MergeSort(mygraph, vertices, mid + 1, right);
 
@@ -142,16 +150,18 @@ void Algoritmos::MergeSort(Grafo &mygraph, int* vertices, int left, int right)
 void Algoritmos::Refaz(int Esq, int Dir, Grafo &mygraph, int* vertices)
 {
     int i = Esq;
-    int j = 2*i + 1;
+    int j = 2*i + 1; // Filho esquerdo de i
     int x = vertices[i];
     while (j <= Dir)
     {
         if (j < Dir)
         {
+            // Compara com base na cor e no rótulo em caso de empate na cor
             if (mygraph.GetCor(vertices[j]) < mygraph.GetCor(vertices[j + 1]) ||
                 (mygraph.GetCor(vertices[j]) == mygraph.GetCor(vertices[j + 1]) && vertices[j] < vertices[j + 1]))
-                j++;
+                j++; // Filho direito de i
         }
+        // Compara com base na cor e no rótulo em caso de empate na cor
         if (mygraph.GetCor(x) < mygraph.GetCor(vertices[j]) ||
             (mygraph.GetCor(x) == mygraph.GetCor(vertices[j]) && x < vertices[j]))
         {

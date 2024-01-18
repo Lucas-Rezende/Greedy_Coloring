@@ -1,18 +1,23 @@
 #include "graph.hpp"
+#include <climits>
 
 Grafo::Grafo() {}
 
+// Construtor da classe Grafo
 Grafo::Grafo(int n) : numVertices(n), cores(new int[n])
 {
+    // Inicializa o grafo e as cores
     for (int i = 0; i < numVertices; i++)
     {
         vertices.insereFinal(new ListaEncadeada());
-        cores[i] = -1;
+        cores[i] = -1; // Inicializa todas as cores como -1 (sem cor)
     }
 }
 
+// Destrutor da classe Grafo
 Grafo::~Grafo()
 {
+    // Libera a memória alocada para cores
     delete[] cores;
 }
 
@@ -60,6 +65,7 @@ void Grafo::ImprimeVizinhos(int v)
     }
 }
 
+// Método para definir a cor de um vértice
 void Grafo::SetCor(int vertice, int cor)
 {
     if (vertice >= 0 && vertice < numVertices)
@@ -68,13 +74,14 @@ void Grafo::SetCor(int vertice, int cor)
     }
 }
 
+// Método para obter a cor de um vértice
 int Grafo::GetCor(int vertice)
 {
     if (vertice >= 0 && vertice < numVertices)
     {
         return cores[vertice];
     }
-    return -1;
+    return -1; // Retorna -1 se o vértice estiver fora dos limites
 }
 
 void Grafo::ImprimeVerticesECores()
